@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BGS SHOP — Auto Diagnostic</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&family=Exo+2:wght@300;400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+
+<!-- GRID BACKGROUND -->
+<div class="bg-grid"></div>
+<div class="scan-line"></div>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="header-left">
+    <div class="logo-mark">
+      <span class="logo-icon">⬡</span>
+    </div>
+    <div class="logo-text">
+      <span class="brand">BGS SHOP</span>
+      <span class="tagline">Computer Service Center</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="status-dot blink"></div>
+    <span class="status-label">SYSTEM ONLINE</span>
+    <div class="clock" id="clock">--:--:--</div>
+  </div>
+</header>
+
+<!-- HERO / INPUT SECTION -->
+<main class="main-wrap">
+  <section class="hero-section">
+    <div class="hero-label">DIAGNOSTIC MODULE v1.0</div>
+    <h1 class="hero-title">AUTO DIAGNOSTIC<br/><em>WEB TOOL</em></h1>
+    <p class="hero-sub">Scan otomatis kondisi hardware laptop / PC Anda dalam hitungan detik.</p>
+
+    <div class="scan-form">
+      <div class="input-group">
+        <label class="input-label" for="customerName">NAMA CUSTOMER</label>
+        <input
+          type="text"
+          id="customerName"
+          class="input-field"
+          placeholder="Masukkan nama customer..."
+          autocomplete="off"
+        />
+      </div>
+      <button class="btn-scan" id="btnScan" onclick="startScan()">
+        <span class="btn-icon">⟳</span>
+        <span>SCAN SEKARANG</span>
+        <div class="btn-pulse"></div>
+      </button>
+    </div>
+  </section>
+
+  <!-- PROGRESS / STATUS -->
+  <div class="scan-progress" id="scanProgress" style="display:none;">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="progress-steps" id="progressSteps">
+      <span class="step active">Inisialisasi...</span>
+    </div>
+  </div>
+
+  <!-- RESULTS SECTION -->
+  <section class="results-section" id="resultsSection" style="display:none;">
+
+    <div class="results-header">
+      <div>
+        <div class="results-badge">LAPORAN DIAGNOSTIK</div>
+        <h2 class="results-customer" id="resCustomer">—</h2>
+        <div class="results-time" id="resScanTime">—</div>
+      </div>
+      <button class="btn-report" id="btnReport" onclick="generateReport()">
+        <span>📄</span> Generate Laporan
+      </button>
+    </div>
+
+    <!-- CARDS GRID -->
+    <div class="cards-grid" id="cardsGrid">
+      <!-- injected by JS -->
+    </div>
+
+    <!-- RECOMMENDATIONS -->
+    <div class="rec-section">
+      <div class="section-title">
+        <span class="section-icon">⚡</span> REKOMENDASI SERVIS
+      </div>
+      <div class="rec-list" id="recList">
+        <!-- injected by JS -->
+      </div>
+    </div>
+
+    <!-- RESCAN BUTTON -->
+    <div class="rescan-wrap">
+      <button class="btn-rescan" onclick="resetScan()">⟲ Scan Ulang</button>
+    </div>
+
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <span>BGS SHOP &copy; 2025 — Auto Diagnostic Web Tool</span>
+  <span class="footer-sep">|</span>
+  <span>Powered by Python + Flask</span>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script src="/static/js/app.js"></script>
+</body>
+</html>

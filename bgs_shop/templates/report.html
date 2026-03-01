@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <title>BGS SHOP — Laporan Diagnostik</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&family=Exo+2:wght@300;400;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --green:  #00f5a0;
+      --yellow: #ffd93d;
+      --red:    #ff4d6d;
+      --blue:   #00b4d8;
+      --bg:     #080c14;
+      --card:   #0d1526;
+      --border: rgba(0,180,216,0.18);
+      --text:   #cdd6f4;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Exo 2', sans-serif;
+      padding: 40px 32px;
+      min-height: 100vh;
+    }
+    .page { max-width: 860px; margin: 0 auto; }
+
+    /* HEADER */
+    .rpt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid var(--blue);
+      padding-bottom: 20px;
+      margin-bottom: 32px;
+    }
+    .rpt-brand { font-family: 'Rajdhani', sans-serif; }
+    .rpt-brand .brand-big {
+      font-size: 2rem; font-weight: 700;
+      color: var(--blue);
+      letter-spacing: 4px;
+    }
+    .rpt-brand .brand-sub { font-size: .8rem; color: #888; letter-spacing: 2px; }
+    .rpt-meta { text-align: right; }
+    .rpt-meta .meta-label { font-size: .7rem; color: #888; letter-spacing: 1px; margin-bottom: 4px; }
+    .rpt-meta .meta-val   { font-family: 'JetBrains Mono', monospace; font-size: .85rem; color: var(--blue); }
+
+    /* CUSTOMER */
+    .rpt-customer-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--blue);
+      border-radius: 8px;
+      padding: 18px 24px;
+      margin-bottom: 28px;
+      display: flex;
+      gap: 40px;
+      align-items: center;
+    }
+    .cust-label { font-size: .7rem; letter-spacing: 2px; color: #888; margin-bottom: 4px; }
+    .cust-val   { font-size: 1.4rem; font-weight: 700; color: #fff; font-family: 'Rajdhani', sans-serif; letter-spacing: 1px; }
+
+    /* SECTION TITLE */
+    .sec-title {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: .75rem;
+      letter-spacing: 3px;
+      color: var(--blue);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* CARDS */
+    .cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 28px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+    }
+    .card-head {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 12px;
+    }
+    .card-title { font-size: .7rem; letter-spacing: 2px; color: #888; }
+    .badge {
+      font-size: .62rem; letter-spacing: 1px; font-weight: 600;
+      padding: 3px 8px; border-radius: 4px;
+    }
+    .badge.hijau  { background: rgba(0,245,160,.12); color: var(--green); border: 1px solid rgba(0,245,160,.3); }
+    .badge.kuning { background: rgba(255,217,61,.12); color: var(--yellow); border: 1px solid rgba(255,217,61,.3); }
+    .badge.merah  { background: rgba(255,77,109,.12);  color: var(--red);   border: 1px solid rgba(255,77,109,.3); }
+
+    .card-main-val {
+      font-family: 'Rajdhani', sans-serif;
+      font-size: 1.8rem; font-weight: 700; color: #fff;
+    }
+    .card-main-unit { font-size: .9rem; color: #888; margin-left: 4px; }
+    .card-sub { font-size: .78rem; color: #888; margin-top: 6px; font-family: 'JetBrains Mono', monospace; }
+
+    /* PROGRESS BAR */
+    .pbar-wrap { background: rgba(255,255,255,.06); border-radius: 4px; height: 6px; margin-top: 10px; overflow: hidden; }
+    .pbar { height: 100%; border-radius: 4px; }
+    .pbar.hijau  { background: var(--green); }
+    .pbar.kuning { background: var(--yellow); }
+    .pbar.merah  { background: var(--red); }
+
+    /* STORAGE TABLE */
+    .stor-table { width: 100%; border-collapse: collapse; margin-bottom: 28px; font-size: .82rem; }
+    .stor-table th {
+      text-align: left; font-size: .65rem; letter-spacing: 2px;
+      color: #888; padding: 8px 10px;
+      border-bottom: 1px solid var(--border);
+    }
+    .stor-table td {
+      padding: 10px 10px;
+      border-bottom: 1px solid rgba(255,255,255,.04);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .78rem;
+    }
+    .stor-table tr:last-child td { border-bottom: none; }
+
+    /* RECOMMENDATIONS */
+    .rec-item {
+      display: flex; gap: 14px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-bottom: 12px;
+      align-items: flex-start;
+    }
+    .rec-item.hijau  { border-left: 4px solid var(--green); }
+    .rec-item.kuning { border-left: 4px solid var(--yellow); }
+    .rec-item.merah  { border-left: 4px solid var(--red); }
+    .rec-icon { font-size: 1.4rem; }
+    .rec-title { font-weight: 700; color: #fff; margin-bottom: 4px; font-family: 'Rajdhani', sans-serif; font-size: 1rem; }
+    .rec-desc  { font-size: .78rem; color: #aaa; margin-bottom: 6px; }
+    .rec-action { font-size: .72rem; font-family: 'JetBrains Mono', monospace; }
+    .rec-action.hijau  { color: var(--green); }
+    .rec-action.kuning { color: var(--yellow); }
+    .rec-action.merah  { color: var(--red); }
+
+    /* FOOTER */
+    .rpt-footer {
+      margin-top: 36px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      font-size: .72rem;
+      color: #555;
+    }
+
+    @media print {
+      body { background: #fff !important; color: #111 !important; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="rpt-header">
+    <div class="rpt-brand">
+      <div class="brand-big">BGS SHOP</div>
+      <div class="brand-sub">AUTO DIAGNOSTIC REPORT</div>
+    </div>
+    <div class="rpt-meta">
+      <div class="meta-label">TANGGAL SCAN</div>
+      <div class="meta-val">{{ data.scan_time }}</div>
+    </div>
+  </div>
+
+  <!-- CUSTOMER INFO -->
+  <div class="rpt-customer-box">
+    <div>
+      <div class="cust-label">NAMA CUSTOMER</div>
+      <div class="cust-val">{{ data.customer }}</div>
+    </div>
+    <div>
+      <div class="cust-label">OS TERDETEKSI</div>
+      <div class="cust-val" style="font-size:1.1rem;">{{ data.os.name if data.os and not data.os.get('error') else 'N/A' }}</div>
+    </div>
+    <div>
+      <div class="cust-label">HOSTNAME</div>
+      <div class="cust-val" style="font-size:1.1rem;">{{ data.os.hostname if data.os and not data.os.get('error') else 'N/A' }}</div>
+    </div>
+  </div>
+
+  <!-- HARDWARE CARDS -->
+  <div class="sec-title">▸ DATA HARDWARE</div>
+  <div class="cards">
+
+    <!-- RAM -->
+    {% if data.ram and not data.ram.get('error') %}
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">💾 MEMORY (RAM)</span>
+        <span class="badge {{ data.ram.status }}">{{ data.ram.label }}</span>
+      </div>
+      <div>
+        <span class="card-main-val">{{ data.ram.total_gb }}</span>
+        <span class="card-main-unit">GB</span>
+      </div>
+      <div class="card-sub">Terpakai: {{ data.ram.used_gb }} GB ({{ data.ram.percent }}%)</div>
+      <div class="pbar-wrap">
+        <div class="pbar {{ data.ram.status }}" style="width: {{ data.ram.percent }}%"></div>
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- CPU -->
+    {% if data.cpu and not data.cpu.get('error') %}
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">⚙️ PROCESSOR</span>
+        <span class="badge {{ data.cpu.status }}">{{ data.cpu.label }}</span>
+      </div>
+      <div class="card-main-val" style="font-size:1rem;">{{ data.cpu.usage_percent }}%</div>
+      <div class="card-sub">{{ data.cpu.name[:48] }}{% if data.cpu.name|length > 48 %}…{% endif %}</div>
+      <div class="card-sub">{{ data.cpu.cores_physical }} Core / {{ data.cpu.cores_logical }} Thread &bull; {{ data.cpu.freq_ghz }} GHz</div>
+    </div>
+    {% endif %}
+
+    <!-- BATTERY -->
+    {% if data.battery and data.battery.available %}
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">🔋 BATERAI</span>
+        <span class="badge {{ data.battery.status }}">{{ data.battery.label }}</span>
+      </div>
+      <div>
+        <span class="card-main-val">{{ data.battery.percent }}</span>
+        <span class="card-main-unit">%</span>
+      </div>
+      <div class="card-sub">{{ 'Sedang Mengisi Daya' if data.battery.plugged else 'Baterai: ' + data.battery.time_left }}</div>
+      <div class="pbar-wrap">
+        <div class="pbar {{ data.battery.status }}" style="width: {{ data.battery.percent }}%"></div>
+      </div>
+    </div>
+    {% else %}
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">🔋 BATERAI</span>
+        <span class="badge hijau">Desktop / N/A</span>
+      </div>
+      <div class="card-sub" style="margin-top:8px;">Baterai tidak terdeteksi pada perangkat ini.</div>
+    </div>
+    {% endif %}
+
+    <!-- OS -->
+    {% if data.os and not data.os.get('error') %}
+    <div class="card">
+      <div class="card-head">
+        <span class="card-title">🖥️ SISTEM OPERASI</span>
+        <span class="badge hijau">Terdeteksi</span>
+      </div>
+      <div class="card-main-val" style="font-size:.95rem;">{{ data.os.name }}</div>
+      <div class="card-sub">Arsitektur: {{ data.os.machine }}</div>
+    </div>
+    {% endif %}
+
+  </div>
+
+  <!-- STORAGE TABLE -->
+  <div class="sec-title">▸ STORAGE / PENYIMPANAN</div>
+  <table class="stor-table">
+    <thead>
+      <tr>
+        <th>DRIVE</th><th>TOTAL</th><th>TERPAKAI</th><th>BEBAS</th><th>PENGGUNAAN</th><th>STATUS</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for drv in data.storage %}
+      {% if not drv.get('error') %}
+      <tr>
+        <td>{{ drv.device }} ({{ drv.mountpoint }})</td>
+        <td>{{ drv.total_gb }} GB</td>
+        <td>{{ drv.used_gb }} GB</td>
+        <td>{{ drv.free_gb }} GB</td>
+        <td>
+          <div class="pbar-wrap" style="width:100px; display:inline-block; vertical-align:middle;">
+            <div class="pbar {{ drv.status }}" style="width:{{ drv.percent }}%"></div>
+          </div>
+          <span style="margin-left:6px; color:#aaa;">{{ drv.percent }}%</span>
+        </td>
+        <td><span class="badge {{ drv.status }}">{{ drv.label }}</span></td>
+      </tr>
+      {% endif %}
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- RECOMMENDATIONS -->
+  <div class="sec-title">▸ REKOMENDASI SERVIS</div>
+  {% for rec in data.recommendations %}
+  <div class="rec-item {{ rec.level }}">
+    <div class="rec-icon">{{ rec.icon }}</div>
+    <div>
+      <div class="rec-title">{{ rec.title }}</div>
+      <div class="rec-desc">{{ rec.desc }}</div>
+      <div class="rec-action {{ rec.level }}">→ {{ rec.action }}</div>
+    </div>
+  </div>
+  {% endfor %}
+
+  <!-- FOOTER -->
+  <div class="rpt-footer">
+    <span>BGS SHOP — Computer Service Center</span>
+    <span>Dokumen ini dibuat otomatis oleh BGS SHOP Auto Diagnostic Tool</span>
+  </div>
+
+</div>
+</body>
+</html>
